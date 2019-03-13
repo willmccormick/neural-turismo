@@ -1,61 +1,59 @@
-var ship;
-var cowboys = [];
-var bullets = [];
+var trees = [];
+var px=0;
+var py=0;
+var hero;
 
 function setup() {
-  createCanvas(600, 400);
-  ship = new Ship();
-  //bullet = new Bullet(width/2, height/2);
-  for (var i = 0; i < 8; i++) {
-    cowboys[i] = new Cowboy(i * 80 + 80, 20);
+  
+    
+    createCanvas(1200, 550);
+  for (var i = 0; i <= 10; i++) {
+      for (var j = 0; j<=10; j++){
+          trees[i*11+j]=new Tree(200*i+Math.floor(Math.random()*400),
+                                 200*j+Math.floor(Math.random()*400),
+                                 Math.floor(Math.random()*256),Math.floor(Math.random()*256),Math.floor(Math.random()*256))
+          
+      }
   }
+    var img = new Image();
+    var img = loadImage('shrek.png');
+    hero = createSprite(height/2,width/2);
+    hero.addImage(img);
+    
 }
 
 function draw() {
-  background(51);
-  ship.show();
-
-  for (var i = 0; i < bullets.length; i++) {
-    bullets[i].show();
-    bullets[i].move();
-
-    for (var j = 0; j < cowboys.length; j++) {
-      if (bullets[i].hits(cowboys[j])) {
-        console.log("CONTACT");
-        cowboys[j].dissapear();
-        bullets[i].dissapear();
-      }
+    if (keyDown(39)) 
+    //right
+    {
+        px = px +2;
     }
-  }
-
-  for (var k = 0; k < cowboys.length; k++) {
-    cowboys[k].show();
-  }
-
-  for (var a = cowboys.length - 1; a >= 0; a--) {
-    if (cowboys[a].toDelete) {
-      cowboys.splice(a, 1);
+    if (keyDown(37)) 
+    //left
+    {
+        px = px-2;
     }
-  }
-
-  for (var a = bullets.length - 1; a >= 0; a--) {
-    if (bullets[a].toDelete) {
-      bullets.splice(a, 1);
+    if (keyDown(40)) 
+    //down
+    {
+        py +=2;
     }
-  }
-}
-
-function keyPressed() {
-
-  if (key === ' ') {
-    var bullet = new Bullet(ship.x + 10, height);
-    bullets.push(bullet)
-  }
-
-  if (keyCode === RIGHT_ARROW) {
-    ship.move(1);
-  }
-  if (keyCode === LEFT_ARROW) {
-    ship.move(-1);
-  }
+    if (keyDown(38))
+    //up arrow
+    {
+        py +=-2;
+    }
+    
+    background(30,150,40);
+    for (i=0; i<=120;i++){
+        trees[i].scroll(px,py);
+        trees[i].show();
+    }
+    //var img = new Image();
+    
+    //var ctx = canvas.getContext('2d');
+    
+    //img.src = 'shrek.png';
+    //ctx.drawImage(img, 500, 200);
+    
 }
